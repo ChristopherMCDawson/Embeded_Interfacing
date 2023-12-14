@@ -1,0 +1,188 @@
+[
+    {
+        "id": "0bd81fb4ca726d5b",
+        "type": "tab",
+        "label": "Tri-Colour LED",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3d3845d5ac47b130",
+        "type": "arduino in",
+        "z": "0bd81fb4ca726d5b",
+        "name": "button",
+        "pin": "15",
+        "state": "ANALOG",
+        "arduino": "b4543f4.a6ae6c",
+        "x": 90,
+        "y": 100,
+        "wires": [
+            [
+                "63ea786cec9e2a1a"
+            ]
+        ]
+    },
+    {
+        "id": "5a7bd94ff3293ecb",
+        "type": "function",
+        "z": "0bd81fb4ca726d5b",
+        "name": "function 1",
+        "func": "// Set the pin numbers\nconst buttonPin = 15; // the number of the pushbutton pin\nconst ledPin = 20; // the number of the LED pin\n\n// Read the current button state from the message payload\nvar buttonState = msg.payload;\n\n// Set the LED state based on the button state\nif (buttonState == true) {\n    // Turn LED on\n    msg.payload = { pin: ledPin, value: 1 };\n} else {\n    // Turn LED off\n    msg.payload = { pin: ledPin, value: 0 };\n}\n\n// Pass the message to the digital write node\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 100,
+        "wires": [
+            [
+                "60498c46ec4fe3c0",
+                "448f51e745816fb0"
+            ]
+        ]
+    },
+    {
+        "id": "60498c46ec4fe3c0",
+        "type": "arduino out",
+        "z": "0bd81fb4ca726d5b",
+        "name": "on/off",
+        "pin": "20",
+        "state": "PWM",
+        "arduino": "b4543f4.a6ae6c",
+        "x": 570,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "4bcdab788fdb721a",
+        "type": "inject",
+        "z": "0bd81fb4ca726d5b",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 210,
+        "y": 40,
+        "wires": [
+            [
+                "b87b596091bf9b1a"
+            ]
+        ]
+    },
+    {
+        "id": "6721a5d8d659f6c1",
+        "type": "switch",
+        "z": "0bd81fb4ca726d5b",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 250,
+        "y": 100,
+        "wires": [
+            [
+                "5a7bd94ff3293ecb"
+            ]
+        ]
+    },
+    {
+        "id": "63ea786cec9e2a1a",
+        "type": "debounce",
+        "z": "0bd81fb4ca726d5b",
+        "time": "50",
+        "name": "",
+        "x": 180,
+        "y": 180,
+        "wires": [
+            [
+                "6721a5d8d659f6c1"
+            ]
+        ]
+    },
+    {
+        "id": "448f51e745816fb0",
+        "type": "debug",
+        "z": "0bd81fb4ca726d5b",
+        "name": "debug 1",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "46aeeba8ceea7334",
+        "type": "inject",
+        "z": "0bd81fb4ca726d5b",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "x": 330,
+        "y": 60,
+        "wires": [
+            [
+                "b87b596091bf9b1a"
+            ]
+        ]
+    },
+    {
+        "id": "b87b596091bf9b1a",
+        "type": "arduino out",
+        "z": "0bd81fb4ca726d5b",
+        "name": "",
+        "pin": "13",
+        "state": "OUTPUT",
+        "arduino": "b4543f4.a6ae6c",
+        "x": 480,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "b4543f4.a6ae6c",
+        "type": "arduino-board",
+        "device": "COM8"
+    }
+]
